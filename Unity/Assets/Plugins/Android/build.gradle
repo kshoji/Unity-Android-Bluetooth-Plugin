@@ -1,0 +1,60 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.3.0'
+	}
+}
+
+allprojects {
+   repositories {
+      flatDir {
+        dirs 'libs'
+      }
+   }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+	compile(name: 'OVRPlugin', ext:'aar')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+}
+
+android {
+	compileSdkVersion 27
+	buildToolsVersion '3.1.2'
+
+	defaultConfig {
+		targetSdkVersion 27
+		applicationId 'com.oculus.UnitySample'
+	}
+
+	lintOptions {
+		abortOnError false
+	}
+
+	aaptOptions {
+		noCompress '.unity3d', '.ress', '.resource', '.obb'
+	}
+
+**SIGN**
+	buildTypes {
+  		debug {
+ 			minifyEnabled false
+ 			useProguard false
+ 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+  			jniDebuggable true
+  		}
+  		release {
+ 			minifyEnabled false
+ 			useProguard false
+  			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+  		}
+	}
+
+}
